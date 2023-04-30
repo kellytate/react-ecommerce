@@ -1,8 +1,73 @@
 import { Dialog, Transition } from "@headlessui/react";
-import { XIcon } from "@heroicons/react/outline";
+import { XIcon, ShoppingCartIcon } from "@heroicons/react/outline";
 import React, { Fragment } from "react";
 
 export default function Cart({ open, setOpen, cart, updateCart }) {
+  
+  let cartDisplay;
+
+  if (cart.length === 0) {
+    cartDisplay = 
+    <div className="flex flex-col items-center justify-center h-full">
+      <ShoppingCartIcon
+              className="w-12"
+              aria-hidden="true"
+            />
+      <p className="py-2">Your Cart is Empty.</p>
+    </div>;
+    
+  } else {
+    cartDisplay = 
+    <div className="mt-8">
+      <div className="flow-root">
+        <ul role="list" className="-my-6 divide-y divide-gray-200">
+          {cart.map((product) => (
+            <li key={product.id} className="flex py-6">
+              <div className="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
+                <img
+                  src={product.imageSrc}
+                  alt={product.imageAlt}
+                  className="h-full w-full object-cover object-center"
+                />
+              </div>
+
+              <div className="ml-4 flex flex-1 flex-col">
+                <div>
+                  <div className="flex justify-between text-base font-medium text-gray-900">
+                    <h3>{product.name}</h3>
+                    <p className="ml-4">${product.price}</p>
+                  </div>
+                </div>
+                <div className="flex flex-1 items-end justify-between text-sm">
+                  <p className="text-gray-500">Qty {product.quantity}</p>
+
+                  <div className="flex">
+                    <button
+                      onClick={() => {
+                        let newCart = cart.filter((p) => {
+                          if (p.id === product.id) {
+                            p.quantity -= 1;
+                          }
+
+                          return p.quantity > 0;
+                        });
+                        updateCart(newCart);
+                      }}
+                      type="button"
+                      className="font-medium text-gray-500 hover:text-black"
+                    >
+                      Remove
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>;
+  }
+
   return (
     <Transition.Root show={open} as={Fragment}>
       <Dialog
@@ -51,55 +116,7 @@ export default function Cart({ open, setOpen, cart, updateCart }) {
                         </button>
                       </div>
                     </div>
-
-                    <div className="mt-8">
-                      <div className="flow-root">
-                        <ul role="list" className="-my-6 divide-y divide-gray-200">
-                          {cart.map((product) => (
-                            <li key={product.id} className="flex py-6">
-                              <div className="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
-                                <img
-                                  src={product.imageSrc}
-                                  alt={product.imageAlt}
-                                  className="h-full w-full object-cover object-center"
-                                />
-                              </div>
-
-                              <div className="ml-4 flex flex-1 flex-col">
-                                <div>
-                                  <div className="flex justify-between text-base font-medium text-gray-900">
-                                    <h3>{product.name}</h3>
-                                    <p className="ml-4">${product.price}</p>
-                                  </div>
-                                </div>
-                                <div className="flex flex-1 items-end justify-between text-sm">
-                                  <p className="text-gray-500">Qty {product.quantity}</p>
-
-                                  <div className="flex">
-                                    <button
-                                      onClick={() => {
-                                        let newCart = cart.filter((p) => {
-                                          if (p.id === product.id) {
-                                            p.quantity -= 1;
-                                          }
-
-                                          return p.quantity > 0;
-                                        });
-                                        updateCart(newCart);
-                                      }}
-                                      type="button"
-                                      className="font-medium text-gray-500 hover:text-black"
-                                    >
-                                      Remove
-                                    </button>
-                                  </div>
-                                </div>
-                              </div>
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                    </div>
+                    {cartDisplay}
                   </div>
 
                   <div className="border-t border-gray-200 py-6 px-4 sm:px-6">
