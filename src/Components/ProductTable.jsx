@@ -27,6 +27,8 @@ const getDefaultSortOptions = () => {
   ];
 };
 
+
+
 export default function ProductTable({ cart, updateCart }) {
   let [products, setProducts] = useState([]);
 
@@ -43,14 +45,33 @@ export default function ProductTable({ cart, updateCart }) {
     fetchProducts();
   }, []);
 
+  const handleSort = (sortOptions) => {
+    let sortedProducts;
+    console.log(sortOptions)
+    sortOptions.map(option => {
+      if (option.current && option.name === 'Price') {
+        sortedProducts = [...products].sort((a,b) => {
+          return a.price > b.price ? 1 : -1;
+        })
+        setProducts(sortedProducts);
+      }
+      if (option.current && option.name === 'Newest') {
+        sortedProducts = [...products].sort((a,b) => {
+          return a.releaseDate > b.releaseDate ? 1 : -1;
+        })
+        setProducts(sortedProducts);
+      }
+    })
+  }
+
   return (
     <div className="bg-white">
       <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:max-w-7xl lg:px-8">
         <h2 className="sr-only">Products</h2>
-        <ProductFilters {...{ filterOptions, setFilterOptions, sortOptions, setSortOptions }} />
+        <ProductFilters {...{ filterOptions, setFilterOptions, sortOptions, setSortOptions, handleSort }} />
 
         <div className="grid grid-cols-1 gap-y-10 sm:grid-cols-2 gap-x-6 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8">
-          {products.map((product) => (
+        {products.map((product) => (
             <a key={product.id} className="group">
               <div className="w-full aspect-w-1 aspect-h-1 bg-gray-200 rounded-lg overflow-hidden xl:aspect-w-7 xl:aspect-h-8">
                 <img

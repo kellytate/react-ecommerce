@@ -6,7 +6,7 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
-export default function ProductFilters({ filterOptions, setFilterOptions, sortOptions, setSortOptions }) {
+export default function ProductFilters({ filterOptions, setFilterOptions, sortOptions, setSortOptions, handleSort }) {
   return (
     <Disclosure
       as="section"
@@ -109,7 +109,18 @@ export default function ProductFilters({ filterOptions, setFilterOptions, sortOp
                       {({ active }) => (
                         <button
                           onClick={() => {
-                            // TODO
+                            // DONE
+                            const selectedOption = option;
+                            sortOptions.map((option) => {
+                              if (selectedOption === option) {
+                                option.current = !option.current;
+                              }
+                              else {
+                                option.current = false;
+                              }
+                            });
+                            setSortOptions(sortOptions);
+                            handleSort(sortOptions);
                           }}
                           className={classNames(
                             option.current ? "font-medium text-gray-900" : "text-gray-500",
