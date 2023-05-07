@@ -1,26 +1,6 @@
 import { Dialog, Transition } from "@headlessui/react";
 import { XIcon, ShoppingCartIcon } from "@heroicons/react/outline";
-import React, { Fragment, useRef, useEffect } from "react";
-
-// let useClickOutside = (handler) => {
-
-//   let domNode = useRef();
-
-//   useEffect(() => {
-//     let maybeHandler = (event) => {
-//       if (!domNode.current?.contains(event.target)) {
-//         handler();
-//       }
-//     };
-  
-//     document.addEventListener("mousedown", maybeHandler);
-  
-//     return () => {
-//       document.removeEventListener("mousedown", maybeHandler);
-//     };
-//   });
-//   return domNode;
-// };
+import React, { Fragment } from "react";
 
 export default function Cart({ open, setOpen, cart, updateCartAndStorage }) {
   
@@ -87,10 +67,6 @@ export default function Cart({ open, setOpen, cart, updateCartAndStorage }) {
       </div>
     </div>;
   }
-  
-  // let domNode = useClickOutside(() => {
-  //   setOpen(false);
-  // })
 
   return (
     <Transition.Root show={open} as={Fragment}>
