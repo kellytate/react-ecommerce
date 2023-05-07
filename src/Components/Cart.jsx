@@ -2,25 +2,25 @@ import { Dialog, Transition } from "@headlessui/react";
 import { XIcon, ShoppingCartIcon } from "@heroicons/react/outline";
 import React, { Fragment, useRef, useEffect } from "react";
 
-let useClickOutside = (handler) => {
+// let useClickOutside = (handler) => {
 
-  let domNode = useRef();
+//   let domNode = useRef();
 
-  useEffect(() => {
-    let maybeHandler = (event) => {
-      if (!domNode.current?.contains(event.target)) {
-        handler();
-      }
-    };
+//   useEffect(() => {
+//     let maybeHandler = (event) => {
+//       if (!domNode.current?.contains(event.target)) {
+//         handler();
+//       }
+//     };
   
-    document.addEventListener("mousedown", maybeHandler);
+//     document.addEventListener("mousedown", maybeHandler);
   
-    return () => {
-      document.removeEventListener("mousedown", maybeHandler);
-    };
-  });
-  return domNode;
-};
+//     return () => {
+//       document.removeEventListener("mousedown", maybeHandler);
+//     };
+//   });
+//   return domNode;
+// };
 
 export default function Cart({ open, setOpen, cart, updateCartAndStorage }) {
   
@@ -88,9 +88,9 @@ export default function Cart({ open, setOpen, cart, updateCartAndStorage }) {
     </div>;
   }
   
-  let domNode = useClickOutside(() => {
-    setOpen(false);
-  })
+  // let domNode = useClickOutside(() => {
+  //   setOpen(false);
+  // })
 
   return (
     <Transition.Root show={open} as={Fragment}>
@@ -111,7 +111,9 @@ export default function Cart({ open, setOpen, cart, updateCartAndStorage }) {
             leaveFrom="opacity-100"
             leaveTo="opacity-0"
           >
-            <Dialog.Overlay className="absolute inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
+            <Dialog.Overlay 
+            onClick={() => setOpen(false)} 
+            className="absolute inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
           </Transition.Child>
 
           <div className="pointer-events-none fixed inset-y-0 right-0 flex max-w-full pl-10">
@@ -125,7 +127,7 @@ export default function Cart({ open, setOpen, cart, updateCartAndStorage }) {
               leaveTo="translate-x-full"
             >
               <div className="pointer-events-auto w-screen max-w-md">
-                <div ref={domNode} className="flex h-full flex-col overflow-y-scroll bg-white shadow-xl">
+                <div className="flex h-full flex-col overflow-y-scroll bg-white shadow-xl">
                   <div className="flex-1 overflow-y-auto py-6 px-4 sm:px-6">
                     <div className="flex items-start justify-between">
                       <Dialog.Title className="text-lg font-medium text-gray-900"> Shopping cart </Dialog.Title>
