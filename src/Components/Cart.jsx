@@ -22,7 +22,7 @@ let useClickOutside = (handler) => {
   return domNode;
 };
 
-export default function Cart({ open, setOpen, cart, updateCart }) {
+export default function Cart({ open, setOpen, cart, updateCartAndStorage }) {
   
   let cartDisplay;
 
@@ -71,7 +71,7 @@ export default function Cart({ open, setOpen, cart, updateCart }) {
 
                           return p.quantity > 0;
                         });
-                        updateCart(newCart);
+                        updateCartAndStorage(newCart);
                       }}
                       type="button"
                       className="font-medium text-gray-500 hover:text-black"
