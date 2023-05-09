@@ -84,26 +84,15 @@ export default function ProductTable({ cart, updateCartAndStorage }) {
                   className="hidden group-hover:block group-hover:opacity-50 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-black"
                   onClick={() => {
                     let newCart = cart.slice();
-
-                    // I encountered an error such that after successful loading of
-                    // cart from localStorage, newCart.includes(product) was not
-                    // recognizing that a product was already in the cart.
-                    // So, duplicate id's were being allowed, triggering an error
-                    // upon opening the cart display.
                     
-                    const itemToAdd = newCart.filter((itemToAdd) => {
-                      return itemToAdd.id === product.id;
-                    })
+                    const existingItem = newCart.find((x) => x.id === product.id);
 
-                    if (itemToAdd.length === 0) {
+                    if (existingItem) {
+                      existingItem.quantity += 1;
+                    }
+                    else {
                       product.quantity = 1;
                       newCart.push(product);
-                    } else {
-                      newCart.map((p) => {
-                        if (p.id === product.id) {
-                          p.quantity += 1;
-                        }
-                      });
                     }
 
                     updateCartAndStorage(newCart);
