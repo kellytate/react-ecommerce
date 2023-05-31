@@ -5,8 +5,10 @@ import React, { Fragment } from "react";
 export default function Cart({ open, setOpen, cart, updateCartAndStorage }) {
   
   let cartDisplay;
+  let subTotal;
 
   if (cart.length === 0) {
+    subTotal = 0;
     cartDisplay = 
     <div className="flex flex-col items-center justify-center h-full">
       <ShoppingCartIcon
@@ -17,6 +19,10 @@ export default function Cart({ open, setOpen, cart, updateCartAndStorage }) {
     </div>;
     
   } else {
+    subTotal = cart.reduce((sub, product) => {
+      return sub + product.price * product.quantity;
+    }, 0);
+
     cartDisplay = 
     <div className="mt-8">
       <div className="flow-root">
@@ -124,7 +130,7 @@ export default function Cart({ open, setOpen, cart, updateCartAndStorage }) {
                   <div className="border-t border-gray-200 py-6 px-4 sm:px-6">
                     <div className="flex justify-between text-base font-medium text-gray-900">
                       <p>Subtotal</p>
-                      <p>$262.00</p>
+                      <p>${subTotal.toFixed(2)}</p>
                     </div>
                     <p className="mt-0.5 text-sm text-gray-500">Shipping and taxes calculated at checkout.</p>
                     <div className="mt-6">

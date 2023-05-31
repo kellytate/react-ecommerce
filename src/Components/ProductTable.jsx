@@ -27,8 +27,6 @@ const getDefaultSortOptions = () => {
   ];
 };
 
-
-
 export default function ProductTable({ cart, updateCartAndStorage }) {
   let [products, setProducts] = useState([]);
 
